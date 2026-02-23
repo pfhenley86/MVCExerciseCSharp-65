@@ -38,11 +38,33 @@ public class ProductController : Controller
         return View(product);
     }
     
-    //UPDATE POST
+    // UPDATE POST
     public IActionResult UpdateProductToDatabase(Product product)
     {
         _repository.UpdateProduct(product);
         
         return RedirectToAction("ViewProduct", new { id = product.ProductID });
     }
+    
+    // CREATE VIEW
+    public IActionResult InsertProduct()
+    {
+        var product = _repository.AssignCategory();
+        return View(product);
+    }
+    
+    // CREATE PRODUCT
+    public IActionResult InsertProductToDatabase(Product productToInsert)
+    {
+        _repository.InsertProduct(productToInsert);
+        return RedirectToAction("Index");
+    }
+    
+    // DELETE PRODUCT
+    public IActionResult DeleteProduct(Product product)
+    {
+        _repository.DeleteProduct(product);
+        return RedirectToAction("Index");
+    }
+    
 }
