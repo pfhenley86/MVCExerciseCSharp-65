@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MVCExerciseCSharp_65.Data;
+using MVCExerciseCSharp_65.Models;
 
 namespace MVCExerciseCSharp_65.Controllers;
 
@@ -17,5 +18,31 @@ public class ProductController : Controller
     {
         var products = _repository.GetAllProducts();
         return View(products);
+    }
+    
+    // VIEW
+    public IActionResult ViewProduct(int id)
+    {
+        var product = _repository.GetProduct(id);
+        return View(product);
+    }
+    
+    // UPDATE VIEW
+    public IActionResult UpdateProduct(int id)
+    {
+        var product = _repository.GetProduct(id);
+        if(product == null)
+        {
+            return View("ProductNotFound");
+        }
+        return View(product);
+    }
+    
+    //UPDATE POST
+    public IActionResult UpdateProductToDatabase(Product product)
+    {
+        _repository.UpdateProduct(product);
+        
+        return RedirectToAction("ViewProduct", new { id = product.ProductID });
     }
 }
